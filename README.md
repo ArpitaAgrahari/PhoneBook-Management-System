@@ -31,33 +31,28 @@ void add_contact()
     FILE *fptr;
     contact cn;
     fptr = fopen("PhoneBook","a");
-
     printf("\n<Fill details>\n");
-
     printf("Enter First Name : ");
     scanf("%s", &cn.fname);
-
     printf("Enter last Name : ");
     scanf("%s", &cn.lname);
-
     printf("\nEnter Mobile Number : ");
     scanf("%s", &cn.mobile_no);
-
     printf("\nEnter Tag(Enter 'Other' for nothing) : ");
     scanf("%s", &cn.tag);
-
     fwrite(&cn, sizeof(contact), 1, fptr);
-
     fclose(fptr);
-
     printf("Enter any key to continue.");
 	getch();
     system("cls");
 }
 
+
+
 # SearchContact():
  
  Source Code :
+
 
 void search_contact(){
 	system("cls");
@@ -67,8 +62,7 @@ void search_contact(){
 	fp=fopen("PhoneBook","r");
 	if(fp==NULL){
 		printf("\nError in opening\n");
-		exit(1);
-	}
+		exit(1);}
 	printf("\n------------------------------------\n");
 	printf("**SEARCH MENU**\n");
 	printf("----------------------------------------\n");
@@ -85,7 +79,6 @@ void search_contact(){
 	scanf("%s",&lname);
 	fflush(stdin);
 	while(fread(&cn,sizeof(cn),1,fp)==1){
-		
 		if(strcmp(strlwr(cn.fname),strlwr(fname))==0&&strcmp(strlwr(cn.lname),strlwr(lname))==0){
 			flag=1;
 			printf("\nDetail information about %s\n",fname);
@@ -129,9 +122,13 @@ void search_contact(){
 	system("cls");
 }
 
+
+
 # ModifyContact():
  
  Source Code :
+
+
 
 void modify_contact()
 {
@@ -142,17 +139,14 @@ void modify_contact()
     char lname[15];
     char modify;
     int found = 0;
-
     fptr = fopen("PhoneBook", "r");
     fptr1 = fopen("helper", "w");
-
     printf("Enter the name of Contact to modify:\n");
 	printf("Enter First name: ");
 	scanf("%s",&fname);
 	printf("Enter Last name: ");
 	scanf("%s",&lname);
 	fflush(stdin);
-
 	while(fread(&cn,sizeof(contact),1,fptr))
     {
         if(strcmp(strlwr(cn.fname),strlwr(fname))==0&&strcmp(strlwr(cn.lname),strlwr(lname))==0)
@@ -199,31 +193,30 @@ void modify_contact()
     }
     fclose(fptr);
     fclose(fptr1);
-
     if(found == 1)
     {
         fptr1 = fopen("helper", "r");
         fptr = fopen("PhoneBook", "w");
-
         while(fread(&cn, sizeof(contact), 1, fptr1))
             fwrite(&cn, sizeof(contact), 1, fptr);
-
         printf("\nContact Modified Successfully\n");
     }
     else
         printf("Contact not found");
-
     fclose(fptr);
     fclose(fptr1);
-
     printf("\n\nEnter any key to continue : ");
 	getch();
     system("cls");
 }
 
+
+
 # Display():
 
  Source Code :
+
+
 
 void display()
 {
@@ -232,7 +225,6 @@ void display()
     contact cn;
     int mode, count = 1, i, n;
     fptr = fopen("PhoneBook", "r");
-
     printf("1 : View by Time Created (Ascending)\n");
     printf("2 : View by Time Created (Descending)\n");
     printf("Choose Display Mode : ");
@@ -243,7 +235,6 @@ void display()
     printf("---------------------------------------------------------------------");
     printf("\n|%-3s| %-15s%-15s%-20s%-12s|\n", "Sno", "First Name", "Last Name", "Contact Number", "Tag");
     printf("---------------------------------------------------------------------");
-
     if(mode == 1)
     {
         while(fread(&cn, sizeof(contact), 1, fptr))
@@ -251,11 +242,9 @@ void display()
             printf("\n|%-3d| %-15s%-15s%-20s%-12s|", count++, cn.fname, cn.lname, cn.mobile_no, cn.tag);
         }
     }
-
     else if (mode == 2)
     {
         fseek(fptr,-(sizeof(cn)), SEEK_END);
-
         for(i = 1; i <= n; ++i)
         {
             fread(&cn, sizeof(contact), 1, fptr);
@@ -263,35 +252,39 @@ void display()
             fseek(fptr, -2*sizeof(contact), SEEK_CUR);
         }
     }
-
     else
         printf("\n|Invalid Selection !!!                                       |");
-
     printf("\n---------------------------------------------------------------------\n");
-
     fclose(fptr);
-
     printf("\n\nEnter any key to continue : ");
 	getch();
     system("cls");
 }
 
+
+
+
 #DirectoryInfo():
 
  Source Code :
 
+
+
 int directory_info(){
    FILE *fptr;
-
    fptr = fopen("PhoneBook", "r");
    fseek(fptr, 0, SEEK_END);
-
    return ftell(fptr)/sizeof(contact);
 }
+
+
+
 
 # DisplayByTag():
 
  Source Code :
+
+
 
 void display_by_tag()
 {
@@ -310,15 +303,12 @@ void display_by_tag()
     printf("---------------------------------------------------------------------");
     printf("\n|%-3s| %-15s%-15s%-20s%-12s|\n", "Sno", "First Name", "Last Name", "Contact Number", "Tag");
     printf("---------------------------------------------------------------------");
-
     while(fread(&cn, sizeof(contact), 1, fptr))
     {
         if(strcmp(strlwr(cn.tag), strlwr(tag)) == 0)
             printf("\n|%-3d| %-15s%-15s%-20s%-12s|", count++, cn.fname, cn.lname, cn.mobile_no, cn.tag);
     }
-
     printf("\n---------------------------------------------------------------------\n");
-
     fclose(fptr);
     fflush(stdin);
     printf("\n\nEnter any key to continue : ");
@@ -326,9 +316,14 @@ void display_by_tag()
     system("cls");
 }
 
+
+
+
 # TagInfo():
 
  Source Code :
+
+
 
 int tag_info(char tag[])
 {
@@ -336,7 +331,6 @@ int tag_info(char tag[])
     FILE *fptr;
     contact cn;
     fptr = fopen("PhoneBook", "r");
-
     while(fread(&cn, sizeof(contact), 1, fptr))
     {
         if(strcmp(strlwr(cn.tag), strlwr(tag)) == 0)
@@ -345,9 +339,13 @@ int tag_info(char tag[])
     return num;
 }
 
+
+
 # DeleteContact():
  
  Source Code :
+
+
 
 void delete_contact(){
 	contact cn;
@@ -362,7 +360,6 @@ void delete_contact(){
 		fptr1=fopen("helper","w+");
 		if(fptr1==NULL)printf("Error in opening the file");
 		else{
-			
 			int choice;
 			printf("\n----------------------------------------");
 			printf("\n**DELETION MENU**\n");
@@ -404,7 +401,6 @@ void delete_contact(){
 			getch();
 			system("cls");
 		}
-		
 			fclose(fptr);
 			fclose(fptr1);
 			if(flag!=1){
@@ -415,8 +411,7 @@ void delete_contact(){
 				fptr = fopen("PhoneBook", "w");
 				while(fread(&cn, sizeof(contact), 1, fptr1))
 					fwrite(&cn, sizeof(contact), 1, fptr);
-				printf("\nContact Deleted Successfully\n");
-				
+				printf("\nContact Deleted Successfully\n");	
 			}
 			fclose(fptr1);
 			fclose(fptr);
@@ -424,5 +419,4 @@ void delete_contact(){
 	}
 	printf("Enter any key:");
 	getch();
-	system("cls");
-}
+	system("cls");}
